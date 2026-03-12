@@ -36,21 +36,28 @@
         <a-video src="#miVideo" width="1" height="1" position="0 0 0"></a-video>
       </a-entity>
     </a-scene>
-    const btn = document.querySelector("#playButton");
-  const video = document.querySelector("#miVideo");
-  
-  btn.addEventListener('click', () => {
-    video.play();
-    document.querySelector("#ui").style.display = "none";
-    
-    // ESTO HACE QUE SE PONGA EN PANTALLA COMPLETA
-    if (video.requestFullscreen) {
-      video.requestFullscreen();
-    } else if (video.webkitRequestFullscreen) { /* Safari / iOS */
-      video.webkitRequestFullscreen();
-    } else if (video.msRequestFullscreen) { /* IE11 */
-      video.msRequestFullscreen();
-    }
-  });
+    <script>
+      const btn = document.querySelector("#playButton");
+      const video = document.querySelector("#miVideo");
+
+      btn.addEventListener('click', () => {
+        video.play();
+        document.querySelector("#ui").style.display = "none";
+
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        } else if (video.webkitEnterFullscreen) { 
+          video.webkitEnterFullscreen();
+        } else if (video.webkitRequestFullscreen) {
+          video.webkitRequestFullscreen();
+        }
+      });
+
+      video.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) {
+          video.pause();
+        }
+      });
+    </script> </body>   </html>    ```
 
     
