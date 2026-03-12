@@ -26,29 +26,8 @@
 
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       
-      <a-assets> 
-        const btn = document.querySelector("#playButton");
-  const video = document.querySelector("#miVideo");
-
-  btn.addEventListener('click', () => {
-    // Primero: Intentar reproducir (importante)
-    video.play().then(() => {
-        // Segundo: Esconder botón
-        document.querySelector("#ui").style.display = "none";
-
-        // Tercero: Forzar Pantalla Completa según el dispositivo
-        if (video.webkitEnterFullscreen) {
-            video.webkitEnterFullscreen(); // Esto es clave para iPhone
-        } else if (video.requestFullscreen) {
-            video.requestFullscreen();    // Esto es para Android
-        } else if (video.webkitRequestFullscreen) {
-            video.webkitRequestFullscreen();
-        }
-    }).catch(err => {
-        console.log("Error al reproducir:", err);
-    });
-  });
-   
+      <a-assets>
+        <video id="miVideo" src="./video.mp4" webkit-playsinline playsinline loop="true"></video>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -57,30 +36,43 @@
         <a-video src="#miVideo" width="1" height="1" position="0 0 0"></a-video>
       </a-entity>
     </a-scene>
+
     <script>
       const btn = document.querySelector("#playButton");
       const video = document.querySelector("#miVideo");
 
       btn.addEventListener('click', () => {
-        video.play();
-        document.querySelector("#ui").style.display = "none";
+        // 1. Iniciamos el video
+        video.play().then(() => {
+            // 2. Escondemos el botón azul
+            document.querySelector("#ui").style.display = "none";
 
-        if (video.requestFullscreen) {
-          video.requestFullscreen();
-        } else if (video.webkitEnterFullscreen) { 
-          video.webkitEnterFullscreen();
-        } else if (video.webkitRequestFullscreen) {
-          video.webkitRequestFullscreen();
-        }
+            // 3. Forzamos la Pantalla Completa (Full Screen)
+            if (video.webkitEnterFullscreen) {
+                video.webkitEnterFullscreen(); // Especial para iPhone/Safari
+            } else if (video.requestFullscreen) {
+                video.requestFullscreen();    // Especial para Android/Chrome
+            } else if (video.webkitRequestFullscreen) {
+                video.webkitRequestFullscreen();
+            }
+        }).catch(err => {
+            console.log("Error al reproducir video:", err);
+            alert("Por favor, intenta de nuevo.");
+        });
       });
 
+      // Si el usuario sale de pantalla completa, el video se pausa automáticamente
       video.addEventListener('fullscreenchange', () => {
         if (!document.fullscreenElement) {
           video.pause();
         }
       });
-    </script> 
-  </body>   
-</html>    ```
-
+      
+      // Mismo detector para navegadores basados en Webkit (Safari)
+      video.addEventListener('webkitendfullscreen', () => {
+          video.pause();
+      });
+    </script>
+  </body>
+</html>
     
