@@ -12,9 +12,11 @@
         }
         button { 
             padding: 20px 40px; border-radius: 50px; border: none; 
-            background: #ff0055; color: white; font-size: 18px; 
+            background: #e91e63; color: white; font-size: 18px; 
             font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
+        /* Esto asegura que el video oculto no interfiera pero esté listo */
+        #miVideo { position: absolute; width: 1px; height: 1px; opacity: 0; }
     </style>
 </head>
 <body>
@@ -22,15 +24,14 @@
         <button id="playButton">VER VIDEO EN PANTALLA COMPLETA</button>
     </div>
 
-    <a-scene mindar-image="imageTargetSrc: ./targets.mind; autoStart: true;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-        <a-assets>
-            <video id="miVideo" src="./video.mp4" preload="auto" crossorigin="anonymous" webkit-playsinline playsinline></video>
-        </a-assets>
+    <video id="miVideo" src="./video.mp4" preload="auto" crossorigin="anonymous" webkit-playsinline playsinline></video>
 
+    <a-scene mindar-image="imageTargetSrc: ./targets.mind; autoStart: true;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+        
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
         <a-entity mindar-image-target="targetIndex: 0">
-            <a-video src="#miVideo" width="1" height="0.6" opacity="0.5"></a-video>
+            <a-video src="#miVideo" width="0.6" height="1" position="0 0 0" opacity="1"></a-video>
         </a-entity>
     </a-scene>
 
@@ -39,28 +40,35 @@
         const video = document.querySelector("#miVideo");
 
         btn.addEventListener('click', function() {
-            // Intentamos reproducir el video primero
-            video.play();
+            // Quitamos el botón
+            document.querySelector("#ui").style.display = "none";
             
-            // Forzamos la pantalla completa inmediatamente
-            if (video.requestFullscreen) {
+            // Iniciamos reproducción
+            video.play();
+
+            // TRUCO FINAL PARA PANTALLA COMPLETA
+            // Si es iPhone (Safari) usamos webkitEnterFullscreen
+            if (video.webkitEnterFullscreen) {
+                video.webkitEnterFullscreen();
+            } 
+            // Si es Android usamos el estándar
+            else if (video.requestFullscreen) {
                 video.requestFullscreen();
-            } else if (video.webkitEnterFullscreen) {
-                video.webkitEnterFullscreen(); // Esto es lo que hace que en iPhone ocupe toda la pantalla
             } else if (video.webkitRequestFullscreen) {
                 video.webkitRequestFullscreen();
-            } else if (video.msRequestFullscreen) {
-                video.msRequestFullscreen();
             }
-
-            // Ocultamos el botón después de clicar
-            document.querySelector("#ui").style.display = "none";
         });
 
-        // Si el usuario sale de pantalla completa, pausamos para no gastar batería
-        video.addEventListener('webkitendfullscreen', () => { video.pause(); });
+        // Detectar cuando el video termina o el usuario cierra la pantalla completa
+        const cerrarVideo = () => {
+            video.pause();
+            // Opcional: recargar la página para volver a escanear
+            // window.location.reload(); 
+        };
+
+        video.addEventListener('webkitendfullscreen', cerrarVideo);
         video.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) video.pause();
+            if (!document.fullscreenElement) cerrarVideo();
         });
     </script>
 </body>
