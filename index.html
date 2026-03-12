@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    
+    <style>
+      body { margin: 0; overflow: hidden; }
+      #ui { 
+        position: absolute; z-index: 1000; bottom: 20px; left: 50%; 
+        transform: translateX(-50%); text-align: center; width: 100%;
+      }
+      button { 
+        padding: 15px 30px; border-radius: 50px; border: none; 
+        background: #007bff; color: white; font-size: 16px; 
+        font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="ui">
+      <button id="playButton">EMPEZAR EXPERIENCIA AR</button>
+    </div>
+
+    <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      
+      <a-assets>
+        <video id="miVideo" src="./video.mp4" webkit-playsinline playsinline loop="true"></video>
+      </a-assets>
+
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-video src="#miVideo" width="1" height="1" position="0 0 0"></a-video>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      const btn = document.querySelector("#playButton");
+      const video = document.querySelector("#miVideo");
+      btn.addEventListener('click', () => {
+        video.play();
+        document.querySelector("#ui").style.display = "none";
+      });
+    </script>
+  </body>
+</html>
