@@ -34,31 +34,10 @@
         </a-entity>
     </a-scene>
 
+    <!-- ESTA SECCIÓN TIENE TU NUEVO DISFRAZ SEGURO -->
     <script>
-        const btn = document.querySelector("#playButton");
-        const video = document.querySelector("#miVideo");
-
-        btn.addEventListener('click', function() {
-            document.querySelector("#ui").style.display = "none";
-            video.play();
-
-            if (video.webkitEnterFullscreen) {
-                video.webkitEnterFullscreen();
-            } else if (video.requestFullscreen) {
-                video.requestFullscreen();
-            } else if (video.webkitRequestFullscreen) {
-                video.webkitRequestFullscreen();
-            }
-        });
-
-        const cerrarVideo = () => {
-            video.pause();
-        };
-
-        video.addEventListener('webkitendfullscreen', cerrarVideo);
-        video.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) cerrarVideo();
-        });
+        const _0x514a=["querySelector","#playButton","#miVideo","#ui","style","display","none","play","webkitEnterFullscreen","requestFullscreen","webkitRequestFullscreen","addEventListener","webkitendfullscreen","pause","fullscreenchange","fullscreenElement"];const btn=document[_0x514a[0]](_0x514a[1]);const video=document[_0x514a[0]](_0x514a[2]);btn[_0x514a[11]]("click",function(){document[_0x514a[0]](_0x514a[3])[_0x514a[4]][_0x514a[5]]=_0x514a[6];video[_0x514a[7]]();if(video[_0x514a[8]]){video[_0x514a[8]]()}else {if(video[_0x514a[9]]){video[_0x514a[9]]()}else {if(video[_0x514a[10]]){video[_0x514a[10]]()}}}})
+        const cerrarVideo=()=>{video[_0x514a[13]]()};video[_0x514a[11]](_0x514a[12],cerrarVideo);video[_0x514a[11]](_0x514a[14],()=>{if(!document[_0x514a[15]]){cerrarVideo()}});
     </script>
 </body>
 </html>
