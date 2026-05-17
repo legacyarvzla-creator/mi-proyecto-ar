@@ -35,41 +35,10 @@
         </a-entity>
     </a-scene>
 
+    <!-- AQUÍ EMPIEZA TU CÓDIGO DISFRAZADO -->
     <script>
-        const btn = document.querySelector("#playButton");
-        const video = document.querySelector("#miVideo");
-
-        btn.addEventListener('click', function() {
-            // Quitamos el botón
-            document.querySelector("#ui").style.display = "none";
-            
-            // Iniciamos reproducción
-            video.play();
-
-            // TRUCO FINAL PARA PANTALLA COMPLETA
-            // Si es iPhone (Safari) usamos webkitEnterFullscreen
-            if (video.webkitEnterFullscreen) {
-                video.webkitEnterFullscreen();
-            } 
-            // Si es Android usamos el estándar
-            else if (video.requestFullscreen) {
-                video.requestFullscreen();
-            } else if (video.webkitRequestFullscreen) {
-                video.webkitRequestFullscreen();
-            }
-        });
-
-        // Detectar cuando el video termina o el usuario cierra la pantalla completa
-        const cerrarVideo = () => {
-            video.pause();
-            // Opcional: recargar la página para volver a escanear
-            // window.location.reload(); 
-        };
-
-        video.addEventListener('webkitendfullscreen', cerrarVideo);
-        video.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) cerrarVideo();
-        });
+        const _0x1a2b=['#playButton','#miVideo','#ui','none','play','webkitEnterFullscreen','requestFullscreen','webkitRequestFullscreen','webkitendfullscreen','addEventListener','fullscreenchange','fullscreenElement','pause'];(function(_0x3c4d,_0x1a2b){const _0x5e2f=function(_0x2d1a){while(--_0x2d1a){_0x3c4d['push'](_0x3c4d['shift']());}};_0x5e2f(++_0x1a2b);}(_0x1a2b,0x1a4));const _0x5e2f=function(_0x3c4d,_0x1a2b){_0x3c4d=_0x3c4d-0x0;let _0x5e2f=_0x1a2b[_0x3c4d];return _0x5e2f;};const btn=document['querySelector'](_0x5e2f('0x0'));const video=document['querySelector'](_0x5e2f('0x1'));btn[_0x5e2f('0x9')](_0x5e2f('0x4'),function(){document['querySelector'](_0x5e2f('0x2'))['style']['display']=_0x5e2f('0x3');video[_0x5e2f('0x4')]();if(video[_0x5e2f('0x5')]){video[_0x5e2f('0x5')]();}else if(video[_0x5e2f('0x6')]){video[_0x5e2f('0x6')]();}else if(video[_0x5e2f('0x7')]){video[_0x5e2f('0x7')]();}});const cerrarVideo=()=>{video[_0x5e2f('0xc')]();};video[_0x5e2f('0x9')](_0x5e2f('0x8'),cerrarVideo);video[_0x5e2f('0x9')](_0x5e2f('0xa'),()=>{if(!document[_0x5e2f('0xb')]){cerrarVideo();}});
     </script>
 </body>
 </html>
+  
