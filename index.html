@@ -15,7 +15,6 @@
             background: #e91e63; color: white; font-size: 18px; 
             font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
-        /* Esto asegura que el video oculto no interfiera pero esté listo */
         #miVideo { position: absolute; width: 1px; height: 1px; opacity: 0; }
     </style>
 </head>
@@ -35,9 +34,31 @@
         </a-entity>
     </a-scene>
 
-    <!-- AQUÍ EMPIEZA TU CÓDIGO DISFRAZADO -->
     <script>
-        const _0x1a2b=['#playButton','#miVideo','#ui','none','play','webkitEnterFullscreen','requestFullscreen','webkitRequestFullscreen','webkitendfullscreen','addEventListener','fullscreenchange','fullscreenElement','pause'];(function(_0x3c4d,_0x1a2b){const _0x5e2f=function(_0x2d1a){while(--_0x2d1a){_0x3c4d['push'](_0x3c4d['shift']());}};_0x5e2f(++_0x1a2b);}(_0x1a2b,0x1a4));const _0x5e2f=function(_0x3c4d,_0x1a2b){_0x3c4d=_0x3c4d-0x0;let _0x5e2f=_0x1a2b[_0x3c4d];return _0x5e2f;};const btn=document['querySelector'](_0x5e2f('0x0'));const video=document['querySelector'](_0x5e2f('0x1'));btn[_0x5e2f('0x9')](_0x5e2f('0x4'),function(){document['querySelector'](_0x5e2f('0x2'))['style']['display']=_0x5e2f('0x3');video[_0x5e2f('0x4')]();if(video[_0x5e2f('0x5')]){video[_0x5e2f('0x5')]();}else if(video[_0x5e2f('0x6')]){video[_0x5e2f('0x6')]();}else if(video[_0x5e2f('0x7')]){video[_0x5e2f('0x7')]();}});const cerrarVideo=()=>{video[_0x5e2f('0xc')]();};video[_0x5e2f('0x9')](_0x5e2f('0x8'),cerrarVideo);video[_0x5e2f('0x9')](_0x5e2f('0xa'),()=>{if(!document[_0x5e2f('0xb')]){cerrarVideo();}});
+        const btn = document.querySelector("#playButton");
+        const video = document.querySelector("#miVideo");
+
+        btn.addEventListener('click', function() {
+            document.querySelector("#ui").style.display = "none";
+            video.play();
+
+            if (video.webkitEnterFullscreen) {
+                video.webkitEnterFullscreen();
+            } else if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) {
+                video.webkitRequestFullscreen();
+            }
+        });
+
+        const cerrarVideo = () => {
+            video.pause();
+        };
+
+        video.addEventListener('webkitendfullscreen', cerrarVideo);
+        video.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) cerrarVideo();
+        });
     </script>
 </body>
 </html>
